@@ -1,8 +1,6 @@
-
-
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:background="@color/colorPrimaryDark"
+    android:layout_height="match_parent" android:background="#03244d"
     tools:context=".Homescreen">
 
     <!-- The primary full-screen view. This can be replaced with whatever view
@@ -10,9 +8,9 @@
          TextureView, etc. -->
     <TextView android:id="@+id/fullscreen_content" android:layout_width="match_parent"
         android:layout_height="match_parent" android:keepScreenOn="true"
-        android:textColor="@color/colorAccentLight" android:textStyle="bold"
+        android:textColor="#f68026" android:textStyle="bold"
         android:textSize="50sp" android:gravity="center_horizontal"
-        android:text="@string/dummy_content" />
+        android:text="AceleroMaze" />
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -39,9 +37,9 @@
 
             <Button android:id="@+id/dummy_button"
                 android:layout_width="0dp" android:layout_height="wrap_content"
-                android:layout_weight="5" android:text="@string/dummy_button"
+                android:layout_weight="5" android:text="START"
                 android:textSize="25sp" android:textStyle="bold"
-                android:textColor="@color/colorAccent"/>
+                android:textColor="#f68026"/>
 
         </LinearLayout>
     </FrameLayout>

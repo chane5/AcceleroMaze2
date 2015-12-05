@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">AcceleroMaze2</string>
-
     <string name="dummy_button">START</string>
     <string name="dummy_content">AcceleroMaze</string>
 </resources>
