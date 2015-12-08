@@ -2,9 +2,6 @@ package com.bu.eric.acceleromaze2;
 
 import android.app.Activity;
 
-/**
- * Created by Matt on 12/6/15.
- */
 public class Mazegen extends Activity {
 
     public static Acceleromaze getMaze(int mazeNo) {

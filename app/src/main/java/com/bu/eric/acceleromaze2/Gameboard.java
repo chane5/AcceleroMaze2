@@ -8,14 +8,8 @@ import android.graphics.Paint;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
-//import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
-
-
-/**
- * Created by Matt on 12/6/15.
- */
 
 public class Gameboard extends View implements SensorEventListener{
 
@@ -70,11 +64,11 @@ public class Gameboard extends View implements SensorEventListener{
 
         boolean[][] walls = maze.getBorders();
         //iterate over the boolean arrays to draw walls
-        for(int i = 0; i < mazeSizeX; i++) {
-            for(int j = 0; j < mazeSizeY; j++){
+        for(int i = 0; i < mazeSizeY; i++) {
+            for(int j = 0; j < mazeSizeX; j++){
                 float x = j * totalCellWidth;
                 float y = i * totalCellHeight;
-                if(j < mazeSizeX - 1 && walls[i][j]) {
+                if(walls[i][j]) {
                     canvas.drawRect(x,   //start X
                             y,               //start Y
                             x + totalCellWidth,   //stop X
@@ -96,49 +90,6 @@ public class Gameboard extends View implements SensorEventListener{
                 (totalCellWidth / 2),
                 finish);
     }
-    /*@Override
-    public boolean onKeyDown(int keyCode, KeyEvent evt) {
-        boolean moved = false;
-        switch(keyCode) {
-            case KeyEvent.KEYCODE_DPAD_UP:
-                moved = maze.move(Acceleromaze.UP);
-                break;
-            case KeyEvent.KEYCODE_DPAD_DOWN:
-                moved = maze.move(Acceleromaze.DOWN);
-                break;
-            case KeyEvent.KEYCODE_DPAD_RIGHT:
-                moved = maze.move(Acceleromaze.RIGHT);
-                break;
-            case KeyEvent.KEYCODE_DPAD_LEFT:
-                moved = maze.move(Acceleromaze.LEFT);
-                break;
-            default:
-                return super.onKeyDown(keyCode,evt);
-        }
-        if(moved) {
-            //the ball was moved so we'll redraw the view
-            invalidate();
-            if(maze.isGameComplete()) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setTitle(context.getText(R.string.finished_title));
-                LayoutInflater inflater = context.getLayoutInflater();
-                View view = inflater.inflate(R.layout.finish, null);
-                builder.setView(view);
-                View closeButton = view.findViewById(R.id.closeGame);
-                closeButton.setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(View clicked) {
-                        if(clicked.getId() == R.id.closeGame) {
-                            context.finish();
-                        }
-                    }
-                });
-                AlertDialog finishDialog = builder.create();
-                finishDialog.show();
-            }
-        }
-        return true;
-    }*/
 
     @Override
     public void onSensorChanged(SensorEvent event) {

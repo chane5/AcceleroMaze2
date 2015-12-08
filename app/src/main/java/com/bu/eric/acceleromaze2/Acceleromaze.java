@@ -4,9 +4,6 @@ import android.app.Activity;
 
 import java.io.Serializable;
 
-/**
- * Created by Matt on 12/6/15.
- */
 public class Acceleromaze extends Activity implements Serializable {
 
     private static final long serialVersionUID = 1L;

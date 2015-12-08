@@ -6,15 +6,16 @@
     android:layout_height="fill_parent"
     android:layout_gravity="center_horizontal"
     android:background="@color/colorPrimaryDark">
-    <TextView android:text="@string/finished_text"
+    <TextView
+        android:text="@string/finished_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="10px"
         android:textStyle="bold"
         android:textColor="@color/colorAccentLight"
-        android:textSize="40sp" />
-    <Button android:text="@string/finished_button"
+        android:textSize="30sp" />
+    <Button
         android:id="@+id/closeGame"
+        android:text="@string/finished_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textStyle="bold"
