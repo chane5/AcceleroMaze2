@@ -25,7 +25,7 @@ public class Gameboard extends View implements SensorEventListener{
     private int mazeFinishX, mazeFinishY;
     private Acceleromaze maze;
     private Activity context;
-    private Paint side, ball, finish, background;
+    private Paint side, ball, pit, finish, background;
 
     public Gameboard(Context context, Acceleromaze maze) {
         super(context);
@@ -39,6 +39,8 @@ public class Gameboard extends View implements SensorEventListener{
         side.setColor(getResources().getColor(R.color.bord));
         ball = new Paint();
         ball.setColor(getResources().getColor(R.color.player));
+        pit = new Paint();
+        pit.setColor(getResources().getColor(R.color.black_overlay));
         finish = new Paint();
         finish.setColor(getResources().getColor(R.color.end));
         background = new Paint();
@@ -77,6 +79,21 @@ public class Gameboard extends View implements SensorEventListener{
                 }
             }
         }
+
+        boolean[][] traps = maze.getHoles();
+        for(int i = 0; i < mazeSizeY; i++) {
+            for(int j = 0; j < mazeSizeX; j++){
+                float x1 = j * totalCellWidth;
+                float y1 = i * totalCellHeight;
+                if(traps[i][j]) {
+                    canvas.drawCircle(x1 + totalCellWidth,
+                            y1 + totalCellHeight,
+                            totalCellWidth,
+                            pit);
+                }
+            }
+        }
+
 
         int currentX = maze.getCurrentX(),currentY = maze.getCurrentY();
         //draw the ball
