@@ -86,8 +86,8 @@ public class Gameboard extends View implements SensorEventListener{
                 float x1 = j * totalCellWidth;
                 float y1 = i * totalCellHeight;
                 if(traps[i][j]) {
-                    canvas.drawCircle(x1 + totalCellWidth,
-                            y1 + totalCellHeight,
+                    canvas.drawCircle(x1,
+                            y1,
                             (totalCellWidth / 2),
                             pit);
                 }
