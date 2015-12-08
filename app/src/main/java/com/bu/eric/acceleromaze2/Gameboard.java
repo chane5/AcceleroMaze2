@@ -40,7 +40,7 @@ public class Gameboard extends View implements SensorEventListener{
         ball = new Paint();
         ball.setColor(getResources().getColor(R.color.player));
         pit = new Paint();
-        pit.setColor(getResources().getColor(R.color.black_overlay));
+        pit.setColor(getResources().getColor(R.color.ahh));
         finish = new Paint();
         finish.setColor(getResources().getColor(R.color.end));
         background = new Paint();
@@ -88,7 +88,7 @@ public class Gameboard extends View implements SensorEventListener{
                 if(traps[i][j]) {
                     canvas.drawCircle(x1 + totalCellWidth,
                             y1 + totalCellHeight,
-                            totalCellWidth,
+                            (totalCellWidth / 2),
                             pit);
                 }
             }
