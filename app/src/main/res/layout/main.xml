@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:gravity="center_vertical"
+    android:background="@color/colorPrimaryDark">
+    <TextView
+        android:id="@+id/game_name"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Acceleromaze"
+        android:gravity="center_horizontal"
+        android:textColor="@color/colorAccentLight"
+        android:textStyle="bold"
+        android:textSize="50sp"/>
+    <ImageView
+        android:id="@+id/pic"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/cam"/>
+    <Button
+        android:id="@+id/start"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="5px"
+        android:text="@string/start_button"
+        android:textSize="40sp"
+        android:textColor="@color/colorPrimaryDark"
+        android:textStyle="bold"
+        android:layout_above="@+id/exit_b"/>
+    <Button
+        android:id="@+id/exit"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="5px"
+        android:text="@string/exit_button"
+        android:textSize="40sp"
+        android:textColor="@color/colorAccentLight"
+        android:textStyle="bold"
+        android:layout_alignParentBottom="true"/>
+</RelativeLayout>
