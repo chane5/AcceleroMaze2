@@ -2,8 +2,11 @@
 <resources>
     <color name="colorPrimary">#496e9c</color>
     <color name="colorPrimaryDark">#03244d</color>
-    <color name="colorAccent">#dd550c</color>
     <color name="colorAccentLight">#f68026</color>
+    <color name="end">#dd550c</color>
+    <color name="back">#496e9c</color>
+    <color name="bord">#03244d</color>
+    <color name="player">#f68026</color>
 
     <color name="black_overlay">#66000000</color>
 </resources>
