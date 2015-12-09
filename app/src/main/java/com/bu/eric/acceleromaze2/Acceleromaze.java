@@ -21,6 +21,7 @@ public class Acceleromaze extends Activity implements Serializable {
 
     public boolean move(int direction) {
         boolean moved = false;
+        currentY--;
         if(direction == UP) {
             if(currentY != 0 && !borders[currentY-1][currentX]) {
                 currentY--;

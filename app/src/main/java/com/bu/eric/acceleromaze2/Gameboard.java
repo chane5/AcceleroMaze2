@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.hardware.SensorEventListener;
+import android.util.Log;
 import android.view.View;
 
 public class Gameboard extends View {
@@ -39,6 +40,7 @@ public class Gameboard extends View {
         finish.setColor(getResources().getColor(R.color.end));
         background = new Paint();
         background.setColor(getResources().getColor(R.color.back));
+        Log.d("board_test", "constructed");
         setFocusable(true);
         this.setFocusableInTouchMode(true);
     }
@@ -56,6 +58,7 @@ public class Gameboard extends View {
 
     protected void onDraw(Canvas canvas) {
         //fill in the background
+        Log.d("board_test", "constructed");
         canvas.drawRect(0, 0, width, height, background);
 
         boolean[][] walls = maze.getBorders();
@@ -93,17 +96,12 @@ public class Gameboard extends View {
                 (mazeFinishY * totalCellHeight) + (totalCellHeight / 2),
                 (totalCellWidth / 2),
                 finish);
-        while (!maze.isALoser() && !maze.isGameComplete()) {
-            if(maze.move(0) || maze.move(1) || maze.move(2) || maze.move(3)) {
-                int currentX = maze.getCurrentX(),currentY = maze.getCurrentY();
-                invalidate();
-                //draw the ball
-                canvas.drawCircle((currentX * totalCellWidth) + (totalCellWidth / 2),   //x of center
-                        (currentY * totalCellHeight) + (totalCellHeight / 2),  //y of center
-                        (totalCellWidth / 2),                           //radius
-                        ball);
-            }
-        }
+        int currentX = maze.getCurrentX(),currentY = maze.getCurrentY();
+        //draw the ball
+        canvas.drawCircle((currentX * totalCellWidth) + (totalCellWidth / 2),   //x of center
+                (currentY * totalCellHeight) + (totalCellHeight / 2),  //y of center
+                (totalCellWidth / 2),                           //radius
+                ball);
     }
 }
 
