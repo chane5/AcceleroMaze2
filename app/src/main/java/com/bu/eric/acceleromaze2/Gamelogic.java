@@ -13,7 +13,7 @@ public class Gamelogic extends Activity {
         Bundle extras = intent.getExtras();
         Acceleromaze maze = (Acceleromaze)extras.get("maze");
         Gameboard board = new Gameboard(this,maze);
-        new mSensorEventListener(this, maze, board);
+        //new mSensorEventListener(this, maze, board);
         setContentView(board);
     }
 }

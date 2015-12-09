@@ -1,14 +1,21 @@
 package com.bu.eric.acceleromaze2;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
-import android.util.Log;
+import android.hardware.SensorManager;
+import android.view.LayoutInflater;
 import android.view.View;
 
-public class Gameboard extends View {
+public class Gameboard extends View implements SensorEventListener {
+
+    private SensorManager mSensorManager;
+    private Sensor mAccelerometer;
 
 
     private int width, height, boxWidth;
@@ -21,11 +28,16 @@ public class Gameboard extends View {
 
     private int mazeFinishX, mazeFinishY;
     private Acceleromaze maze;
+    private Activity context;
     private Paint side, ball, pit, finish, background;
 
     public Gameboard(Context context, Acceleromaze maze) {
         super(context);
         this.maze = maze;
+        this.context = (Activity)context;
+        mSensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
+        mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_UI);
         mazeFinishX = maze.getFinalX();
         mazeFinishY = maze.getFinalY();
         mazeSizeX = maze.getMazeWidth();
@@ -40,7 +52,6 @@ public class Gameboard extends View {
         finish.setColor(getResources().getColor(R.color.end));
         background = new Paint();
         background.setColor(getResources().getColor(R.color.back));
-        Log.d("board_test", "constructed");
         setFocusable(true);
         this.setFocusableInTouchMode(true);
     }
@@ -58,7 +69,6 @@ public class Gameboard extends View {
 
     protected void onDraw(Canvas canvas) {
         //fill in the background
-        Log.d("board_test", "constructed");
         canvas.drawRect(0, 0, width, height, background);
 
         boolean[][] walls = maze.getBorders();
@@ -96,12 +106,59 @@ public class Gameboard extends View {
                 (mazeFinishY * totalCellHeight) + (totalCellHeight / 2),
                 (totalCellWidth / 2),
                 finish);
+
+        maze.move(1);
+
         int currentX = maze.getCurrentX(),currentY = maze.getCurrentY();
         //draw the ball
         canvas.drawCircle((currentX * totalCellWidth) + (totalCellWidth / 2),   //x of center
                 (currentY * totalCellHeight) + (totalCellHeight / 2),  //y of center
                 (totalCellWidth / 2),                           //radius
                 ball);
+    }
+
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        if(event.sensor.getType() != Sensor.TYPE_ACCELEROMETER)
+            return;
+        boolean moved = false;
+        if (event.values[0] > 1.0 && (event.values[0] * event.values[0] > event.values[1])) {
+            moved = maze.move(Acceleromaze.RIGHT);
+        } else if (event.values[0] < -1.0 && (event.values[0] * event.values[0] > event.values[1] * event.values[1])) {
+            moved = maze.move(Acceleromaze.LEFT);
+        } else if (event.values[1] > 1.0 && (event.values[1] * event.values[1] > event.values[0] * event.values[0])) {
+            moved = maze.move(Acceleromaze.UP);
+        } else if (event.values[1] < -1.0 && (event.values[1] * event.values[1] > event.values[0] * event.values[0])) {
+            moved = maze.move(Acceleromaze.DOWN);
+        }
+
+        if (moved) {
+            invalidate();
+            if (maze.isGameComplete() || maze.isALoser()) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setTitle(context.getText(R.string.finished_title));
+                LayoutInflater inflater = context.getLayoutInflater();
+                View view = inflater.inflate(R.layout.finish, null);
+                builder.setView(view);
+                View closeButton = view.findViewById(R.id.closeGame);
+                closeButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View clicked) {
+                        if (clicked.getId() == R.id.closeGame) {
+                            context.finish();
+                        }
+                    }
+                });
+                AlertDialog finishDialog = builder.create();
+                finishDialog.show();
+            }
+        }
+
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
     }
 }
 
