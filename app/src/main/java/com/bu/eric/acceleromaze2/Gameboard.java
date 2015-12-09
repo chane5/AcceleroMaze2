@@ -107,8 +107,6 @@ public class Gameboard extends View implements SensorEventListener {
                 (totalCellWidth / 2),
                 finish);
 
-        maze.move(1);
-
         int currentX = maze.getCurrentX(),currentY = maze.getCurrentY();
         //draw the ball
         canvas.drawCircle((currentX * totalCellWidth) + (totalCellWidth / 2),   //x of center
@@ -122,23 +120,46 @@ public class Gameboard extends View implements SensorEventListener {
         if(event.sensor.getType() != Sensor.TYPE_ACCELEROMETER)
             return;
         boolean moved = false;
-        if (event.values[0] > 1.0 && (event.values[0] * event.values[0] > event.values[1])) {
+        if (event.values[0] < -1.5) {
             moved = maze.move(Acceleromaze.RIGHT);
-        } else if (event.values[0] < -1.0 && (event.values[0] * event.values[0] > event.values[1] * event.values[1])) {
+        }
+        else if (event.values[0] > 1.5) {
             moved = maze.move(Acceleromaze.LEFT);
-        } else if (event.values[1] > 1.0 && (event.values[1] * event.values[1] > event.values[0] * event.values[0])) {
+        }
+        else if (event.values[1] < -1.5) {
             moved = maze.move(Acceleromaze.UP);
-        } else if (event.values[1] < -1.0 && (event.values[1] * event.values[1] > event.values[0] * event.values[0])) {
+        }
+        else if (event.values[1] > 1.5) {
             moved = maze.move(Acceleromaze.DOWN);
         }
 
         if (moved) {
             invalidate();
-            if (maze.isGameComplete() || maze.isALoser()) {
+            if (maze.isGameComplete()) {
+                mSensorManager.unregisterListener(this);
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 builder.setTitle(context.getText(R.string.finished_title));
                 LayoutInflater inflater = context.getLayoutInflater();
                 View view = inflater.inflate(R.layout.finish, null);
+                builder.setView(view);
+                View closeButton = view.findViewById(R.id.closeGame);
+                closeButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View clicked) {
+                        if (clicked.getId() == R.id.closeGame) {
+                            context.finish();
+                        }
+                    }
+                });
+                AlertDialog finishDialog = builder.create();
+                finishDialog.show();
+            }
+            else if(maze.isALoser()) {
+                mSensorManager.unregisterListener(this);
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setTitle(context.getText(R.string.loser_title));
+                LayoutInflater inflater = context.getLayoutInflater();
+                View view = inflater.inflate(R.layout.loser, null);
                 builder.setView(view);
                 View closeButton = view.findViewById(R.id.closeGame);
                 closeButton.setOnClickListener(new View.OnClickListener() {

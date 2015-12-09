@@ -22,7 +22,7 @@ public class Acceleromaze extends Activity implements Serializable {
     public boolean move(int direction) {
         boolean moved = false;
         if(direction == UP) {
-            if(currentY != 0 && !borders[currentY-1][currentX]) {
+            if(currentY != 1 && !borders[currentY-1][currentX]) {
                 currentY--;
                 moved = true;
                 if(holes[currentY][currentX]){
@@ -31,7 +31,7 @@ public class Acceleromaze extends Activity implements Serializable {
             }
         }
         if(direction == DOWN) {
-            if(currentY != sizeY-1 && !borders[currentY][currentX]) {
+            if(currentY != sizeY-1 && !borders[currentY+1][currentX]) {
                 currentY++;
                 moved = true;
                 if(holes[currentY][currentX]){
@@ -40,7 +40,7 @@ public class Acceleromaze extends Activity implements Serializable {
             }
         }
         if(direction == RIGHT) {
-            if(currentX != sizeX-1 && !borders[currentY][currentX]) {
+            if(currentX != sizeX-1 && !borders[currentY][currentX+1]) {
                 currentX++;
                 moved = true;
                 if(holes[currentY][currentX]){
@@ -49,7 +49,7 @@ public class Acceleromaze extends Activity implements Serializable {
             }
         }
         if(direction == LEFT) {
-            if(currentX != 0 && !borders[currentY][currentX-1]) {
+            if(currentX != 1 && !borders[currentY][currentX-1]) {
                 currentX--;
                 moved = true;
                 if(holes[currentY][currentX]){

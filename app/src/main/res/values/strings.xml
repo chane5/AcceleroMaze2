@@ -6,6 +6,7 @@
     <string name="btn_exit">Exit</string>
     <string name="levelSelect">Select Maze</string>
     <string name="finished_title">Congrats</string>
+    <string name="loser_title">You Lose</string>
     <string name="finished_text">Game Over</string>
     <string name="finished_button">End Game</string>
 </resources>
