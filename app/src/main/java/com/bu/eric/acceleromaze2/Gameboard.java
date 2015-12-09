@@ -1,18 +1,13 @@
 package com.bu.eric.acceleromaze2;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
-import android.view.LayoutInflater;
 import android.view.View;
 
-public class Gameboard extends View implements SensorEventListener {
+public class Gameboard extends View {
 
 
     private int width, height, boxWidth;
@@ -25,15 +20,10 @@ public class Gameboard extends View implements SensorEventListener {
 
     private int mazeFinishX, mazeFinishY;
     private Acceleromaze maze;
-    private Activity context;
     private Paint side, ball, pit, finish, background;
-
-    private final SensorManager mSensorManager;
-    private final Sensor mSensor;
 
     public Gameboard(Context context, Acceleromaze maze) {
         super(context);
-        this.context = (Activity)context;
         this.maze = maze;
         mazeFinishX = maze.getFinalX();
         mazeFinishY = maze.getFinalY();
@@ -49,8 +39,6 @@ public class Gameboard extends View implements SensorEventListener {
         finish.setColor(getResources().getColor(R.color.end));
         background = new Paint();
         background.setColor(getResources().getColor(R.color.back));
-        mSensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
-        mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY);
         setFocusable(true);
         this.setFocusableInTouchMode(true);
     }
@@ -100,64 +88,22 @@ public class Gameboard extends View implements SensorEventListener {
             }
         }
 
-
-        int currentX = maze.getCurrentX(),currentY = maze.getCurrentY();
-        //draw the ball
-        canvas.drawCircle((currentX * totalCellWidth) + (totalCellWidth / 2),   //x of center
-                (currentY * totalCellHeight) + (totalCellHeight / 2),  //y of center
-                (totalCellWidth / 2),                           //radius
-                ball);
         //draw the finishing point indicator
         canvas.drawCircle((mazeFinishX * totalCellWidth) + (totalCellWidth / 2),
                 (mazeFinishY * totalCellHeight) + (totalCellHeight / 2),
                 (totalCellWidth / 2),
                 finish);
-    }
-
-    public void onSensorChanged(SensorEvent event) {
-        boolean moved = false;
-        maze.move(Acceleromaze.DOWN);
-        /*if(event.sensor.getType() == Sensor.TYPE_GRAVITY) {
-            if (event.values[0] > 1.0 && (event.values[0] * event.values[0] > event.values[1])) {
-                moved = maze.move(Acceleromaze.RIGHT);
-            } else if (event.values[0] < -1.0 && (event.values[0] * event.values[0] > event.values[1] * event.values[1])) {
-                moved = maze.move(Acceleromaze.LEFT);
-            } else if (event.values[1] > 1.0 && (event.values[1] * event.values[1] > event.values[0] * event.values[0])) {
-                moved = maze.move(Acceleromaze.UP);
-            } else if (event.values[1] < -1.0 && (event.values[1] * event.values[1] > event.values[0] * event.values[0])) {
-                moved = maze.move(Acceleromaze.DOWN);
-            }
-
-        }*/
-
-        if(moved) {
-            //the ball was moved so we'll redraw the view
-            invalidate();
-            if(maze.isGameComplete() || maze.isALoser()) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setTitle(context.getText(R.string.finished_title));
-                LayoutInflater inflater = context.getLayoutInflater();
-                View view = inflater.inflate(R.layout.finish, null);
-                builder.setView(view);
-                View closeButton = view.findViewById(R.id.closeGame);
-                closeButton.setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(View clicked) {
-                        if(clicked.getId() == R.id.closeGame) {
-                            context.finish();
-                        }
-                    }
-                });
-                AlertDialog finishDialog = builder.create();
-                finishDialog.show();
+        while (!maze.isALoser() && !maze.isGameComplete()) {
+            if(maze.move(0) || maze.move(1) || maze.move(2) || maze.move(3)) {
+                int currentX = maze.getCurrentX(),currentY = maze.getCurrentY();
+                invalidate();
+                //draw the ball
+                canvas.drawCircle((currentX * totalCellWidth) + (totalCellWidth / 2),   //x of center
+                        (currentY * totalCellHeight) + (totalCellHeight / 2),  //y of center
+                        (totalCellWidth / 2),                           //radius
+                        ball);
             }
         }
     }
-
-    @Override
-    public void onAccuracyChanged(Sensor sensor, int accuracy) {
-
-    }
-
 }
 
