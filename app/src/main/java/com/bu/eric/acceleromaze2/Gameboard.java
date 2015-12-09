@@ -40,7 +40,7 @@ public class Gameboard extends View implements SensorEventListener {
         this.context = (Activity)context;
         mSensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
         mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+        mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_GAME);
         mazeFinishX = maze.getFinalX();
         mazeFinishY = maze.getFinalY();
         mazeSizeX = maze.getMazeWidth();
