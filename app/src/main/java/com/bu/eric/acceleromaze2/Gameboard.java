@@ -8,10 +8,11 @@ import android.graphics.Paint;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.view.LayoutInflater;
 import android.view.View;
 
-public class Gameboard extends View implements SensorEventListener{
+public class Gameboard extends View implements SensorEventListener {
 
 
     private int width, height, boxWidth;
@@ -26,6 +27,9 @@ public class Gameboard extends View implements SensorEventListener{
     private Acceleromaze maze;
     private Activity context;
     private Paint side, ball, pit, finish, background;
+
+    private final SensorManager mSensorManager;
+    private final Sensor mSensor;
 
     public Gameboard(Context context, Acceleromaze maze) {
         super(context);
@@ -45,6 +49,8 @@ public class Gameboard extends View implements SensorEventListener{
         finish.setColor(getResources().getColor(R.color.end));
         background = new Paint();
         background.setColor(getResources().getColor(R.color.back));
+        mSensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
+        mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY);
         setFocusable(true);
         this.setFocusableInTouchMode(true);
     }
@@ -107,9 +113,7 @@ public class Gameboard extends View implements SensorEventListener{
                 (totalCellWidth / 2),
                 finish);
     }
-
-
-
+    
     public void onSensorChanged(SensorEvent event) {
         boolean moved = false;
         if(event.sensor.getType() == Sensor.TYPE_GRAVITY) {
