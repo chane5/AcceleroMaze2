@@ -113,10 +113,11 @@ public class Gameboard extends View implements SensorEventListener {
                 (totalCellWidth / 2),
                 finish);
     }
-    
+
     public void onSensorChanged(SensorEvent event) {
         boolean moved = false;
-        if(event.sensor.getType() == Sensor.TYPE_GRAVITY) {
+        maze.move(Acceleromaze.DOWN);
+        /*if(event.sensor.getType() == Sensor.TYPE_GRAVITY) {
             if (event.values[0] > 1.0 && (event.values[0] * event.values[0] > event.values[1])) {
                 moved = maze.move(Acceleromaze.RIGHT);
             } else if (event.values[0] < -1.0 && (event.values[0] * event.values[0] > event.values[1] * event.values[1])) {
@@ -126,7 +127,8 @@ public class Gameboard extends View implements SensorEventListener {
             } else if (event.values[1] < -1.0 && (event.values[1] * event.values[1] > event.values[0] * event.values[0])) {
                 moved = maze.move(Acceleromaze.DOWN);
             }
-        }
+
+        }*/
 
         if(moved) {
             //the ball was moved so we'll redraw the view
