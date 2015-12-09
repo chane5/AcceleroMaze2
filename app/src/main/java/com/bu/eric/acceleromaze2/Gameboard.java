@@ -108,21 +108,20 @@ public class Gameboard extends View implements SensorEventListener{
                 finish);
     }
 
-    @Override
+
+
     public void onSensorChanged(SensorEvent event) {
         boolean moved = false;
-
-        if(event.values[0] > 1.0 && (event.values[0]*event.values[0] > event.values[1])) {
-            moved = maze.move(Acceleromaze.RIGHT);
-        }
-        else if(event.values[0] < -1.0 && (event.values[0]*event.values[0] > event.values[1]*event.values[1])) {
-            moved = maze.move(Acceleromaze.LEFT);
-        }
-        else if(event.values[1] > 1.0 && (event.values[1]*event.values[1] > event.values[0]*event.values[0])) {
-            moved = maze.move(Acceleromaze.UP);
-        }
-        else if(event.values[1] < -1.0 && (event.values[1]*event.values[1] > event.values[0]*event.values[0])) {
-            moved = maze.move(Acceleromaze.DOWN);
+        if(event.sensor.getType() == Sensor.TYPE_GRAVITY) {
+            if (event.values[0] > 1.0 && (event.values[0] * event.values[0] > event.values[1])) {
+                moved = maze.move(Acceleromaze.RIGHT);
+            } else if (event.values[0] < -1.0 && (event.values[0] * event.values[0] > event.values[1] * event.values[1])) {
+                moved = maze.move(Acceleromaze.LEFT);
+            } else if (event.values[1] > 1.0 && (event.values[1] * event.values[1] > event.values[0] * event.values[0])) {
+                moved = maze.move(Acceleromaze.UP);
+            } else if (event.values[1] < -1.0 && (event.values[1] * event.values[1] > event.values[0] * event.values[0])) {
+                moved = maze.move(Acceleromaze.DOWN);
+            }
         }
 
         if(moved) {
@@ -153,5 +152,6 @@ public class Gameboard extends View implements SensorEventListener{
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
 
     }
+
 }
 
