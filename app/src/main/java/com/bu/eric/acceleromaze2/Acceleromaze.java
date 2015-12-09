@@ -8,7 +8,7 @@ public class Acceleromaze extends Activity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public static final int UP = 0, DOWN = 1, RIGHT = 2, LEFT = 3;
+    public static final int UP = 0, DOWN = 1, RIGHT = 2, LEFT = 3, UPRIGHT=4, DOWNRIGHT=5, UPLEFT=6, DOWNLEFT=7;
 
     private boolean[][] borders;
     private boolean[][] holes;
@@ -51,6 +51,50 @@ public class Acceleromaze extends Activity implements Serializable {
         if(direction == LEFT) {
             if(currentX != 1 && !borders[currentY][currentX-1]) {
                 currentX--;
+                moved = true;
+                if(holes[currentY][currentX]){
+                    died = true;
+                }
+            }
+        }
+        if(direction==UPRIGHT)
+        {
+            if(currentY != 1 && currentX != sizeX-1 && !borders[currentY-1][currentX+1] && !borders[currentY-1][currentX] && !borders[currentY][currentX+1]) {
+                currentX++;
+                currentY--;
+                moved = true;
+                if(holes[currentY][currentX]){
+                    died = true;
+                }
+            }
+        }
+        if(direction==DOWNRIGHT)
+        {
+            if(currentY != sizeY-1 && currentX != sizeX-1 && !borders[currentY+1][currentX+1] && !borders[currentY+1][currentX] && !borders[currentY][currentX+1]) {
+                currentX++;
+                currentY++;
+                moved = true;
+                if(holes[currentY][currentX]){
+                    died = true;
+                }
+            }
+        }
+        if(direction==UPLEFT)
+        {
+            if(currentY != 1 && currentX != 1 && !borders[currentY-1][currentX-1] && !borders[currentY-1][currentX] && !borders[currentY][currentX-1]) {
+                currentX--;
+                currentY--;
+                moved = true;
+                if(holes[currentY][currentX]){
+                    died = true;
+                }
+            }
+        }
+        if(direction==DOWNLEFT)
+        {
+            if(currentY != sizeY-1 && currentX != 1 && !borders[currentY+1][currentX-1] && !borders[currentY+1][currentX] && !borders[currentY][currentX-1]) {
+                currentX--;
+                currentY++;
                 moved = true;
                 if(holes[currentY][currentX]){
                     died = true;

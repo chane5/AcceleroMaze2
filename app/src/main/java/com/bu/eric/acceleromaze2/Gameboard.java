@@ -31,13 +31,16 @@ public class Gameboard extends View implements SensorEventListener {
     private Activity context;
     private Paint side, ball, pit, finish, background;
 
+    int gravitySensitivityValue = 5;
+    double diagonalSensitivityValue=0.25;
+
     public Gameboard(Context context, Acceleromaze maze) {
         super(context);
         this.maze = maze;
         this.context = (Activity)context;
         mSensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
         mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_UI);
+        mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
         mazeFinishX = maze.getFinalX();
         mazeFinishY = maze.getFinalY();
         mazeSizeX = maze.getMazeWidth();
@@ -117,22 +120,47 @@ public class Gameboard extends View implements SensorEventListener {
 
     @Override
     public void onSensorChanged(SensorEvent event) {
+        /*try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        */
         if(event.sensor.getType() != Sensor.TYPE_ACCELEROMETER)
             return;
         boolean moved = false;
-        if (event.values[0] < -1.5) {
+        if (event.values[0] < -gravitySensitivityValue) {
             moved = maze.move(Acceleromaze.RIGHT);
         }
-        else if (event.values[0] > 1.5) {
+        else if (event.values[0] > gravitySensitivityValue) {
             moved = maze.move(Acceleromaze.LEFT);
         }
-        else if (event.values[1] < -1.5) {
+        else if (event.values[1] < -gravitySensitivityValue) {
             moved = maze.move(Acceleromaze.UP);
         }
-        else if (event.values[1] > 1.5) {
+        else if (event.values[1] > gravitySensitivityValue) {
             moved = maze.move(Acceleromaze.DOWN);
         }
-
+        //UPRIGHT=4
+        else if ((event.values[0] < -diagonalSensitivityValue*gravitySensitivityValue)&&(event.values[1] < -diagonalSensitivityValue*gravitySensitivityValue))
+        {
+            moved=maze.move(Acceleromaze.UPRIGHT);
+        }
+        //DOWNRIGHT=5
+        else if ((event.values[0] < -diagonalSensitivityValue*gravitySensitivityValue)&&(event.values[1] > diagonalSensitivityValue*gravitySensitivityValue))
+        {
+            moved=maze.move(Acceleromaze.DOWNRIGHT);
+        }
+        //UPLEFT=6
+        else if ((event.values[0] > diagonalSensitivityValue*gravitySensitivityValue)&&(event.values[1] < -diagonalSensitivityValue*gravitySensitivityValue))
+        {
+            moved=maze.move(Acceleromaze.UPLEFT);
+        }
+        //DOWNLEFT=7
+        else if ((event.values[0] > diagonalSensitivityValue*gravitySensitivityValue)&&(event.values[1] > diagonalSensitivityValue*gravitySensitivityValue))
+        {
+            moved=maze.move(Acceleromaze.DOWNLEFT);
+        }
         if (moved) {
             invalidate();
             if (maze.isGameComplete()) {
