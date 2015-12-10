@@ -3,8 +3,11 @@ package com.bu.eric.acceleromaze2;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -26,13 +29,17 @@ public class Gameboard extends View implements SensorEventListener {
 
     float totalCellWidth, totalCellHeight;
 
+    int orientation;
+    public static final int UP = 0, DOWN = 1, RIGHT = 2, LEFT = 3;
+
     private int mazeFinishX, mazeFinishY;
     private Acceleromaze maze;
     private Activity context;
     private Paint side, ball, pit, finish, background;
 
+    //default gSV=3 and dSV=0.5
     int gravitySensitivityValue = 5;
-    double diagonalSensitivityValue=0.25;
+    double diagonalSensitivityValue = 0.25;
 
     public Gameboard(Context context, Acceleromaze maze) {
         super(context);
@@ -40,7 +47,7 @@ public class Gameboard extends View implements SensorEventListener {
         this.context = (Activity)context;
         mSensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
         mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_GAME);
+        mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
         mazeFinishX = maze.getFinalX();
         mazeFinishY = maze.getFinalY();
         mazeSizeX = maze.getMazeWidth();
@@ -112,10 +119,38 @@ public class Gameboard extends View implements SensorEventListener {
 
         int currentX = maze.getCurrentX(),currentY = maze.getCurrentY();
         //draw the ball
-        canvas.drawCircle((currentX * totalCellWidth) + (totalCellWidth / 2),   //x of center
-                (currentY * totalCellHeight) + (totalCellHeight / 2),  //y of center
-                (totalCellWidth / 2),                           //radius
-                ball);
+        //canvas.drawCircle(((currentX * totalCellWidth) + (totalCellWidth / 2)),   //x of center
+        //        (currentY * totalCellHeight) + (totalCellHeight / 2),  //y of center
+        //        (totalCellWidth / 2),                           //radius
+        //        ball);
+        float left, top, right, bottom;
+        left=((currentX * totalCellWidth) + (totalCellWidth / 2))-(totalCellWidth / 2);
+        top=((currentY * totalCellHeight) + (totalCellHeight / 2))-(totalCellWidth / 2);
+        right=((currentX * totalCellWidth) + (totalCellWidth / 2))+(totalCellWidth / 2);
+        bottom=((currentY * totalCellHeight) + (totalCellHeight / 2))+(totalCellWidth / 2);
+
+        Rect imageBound= new Rect( (int) left, (int) top, (int) right, (int) bottom);
+        Bitmap ssImage=null;
+        if(orientation==UP) {
+            ssImage = BitmapFactory.decodeResource(getResources(), R.drawable.ssimageup);
+        }
+        else if(orientation==DOWN)
+        {
+            ssImage = BitmapFactory.decodeResource(getResources(), R.drawable.ssimagedown);
+        }
+        else if(orientation==RIGHT)
+        {
+            ssImage = BitmapFactory.decodeResource(getResources(), R.drawable.ssimageright);
+        }
+        else if(orientation==LEFT)
+        {
+            ssImage = BitmapFactory.decodeResource(getResources(), R.drawable.ssimageleft);
+        }
+        else
+        {
+            ssImage = BitmapFactory.decodeResource(getResources(), R.drawable.ssimageup);
+        }
+        canvas.drawBitmap(ssImage, null, imageBound, null);
     }
 
     @Override
@@ -131,15 +166,19 @@ public class Gameboard extends View implements SensorEventListener {
         boolean moved = false;
         if (event.values[0] < -gravitySensitivityValue) {
             moved = maze.move(Acceleromaze.RIGHT);
+            orientation=RIGHT;
         }
         else if (event.values[0] > gravitySensitivityValue) {
             moved = maze.move(Acceleromaze.LEFT);
+            orientation=LEFT;
         }
         else if (event.values[1] < -gravitySensitivityValue) {
             moved = maze.move(Acceleromaze.UP);
+            orientation=UP;
         }
         else if (event.values[1] > gravitySensitivityValue) {
             moved = maze.move(Acceleromaze.DOWN);
+            orientation=DOWN;
         }
         //UPRIGHT=4
         else if ((event.values[0] < -diagonalSensitivityValue*gravitySensitivityValue)&&(event.values[1] < -diagonalSensitivityValue*gravitySensitivityValue))
