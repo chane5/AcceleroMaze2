@@ -30,7 +30,7 @@ public class Gameboard extends View implements SensorEventListener {
     float totalCellWidth, totalCellHeight;
 
     int orientation;
-    public static final int UP = 0, DOWN = 1, RIGHT = 2, LEFT = 3;
+    public static final int UP = 0, DOWN = 1, RIGHT = 2, LEFT = 3, UPRIGHT=4, DOWNRIGHT=5, UPLEFT=6, DOWNLEFT=7;
 
     private int mazeFinishX, mazeFinishY;
     private Acceleromaze maze;
@@ -146,6 +146,22 @@ public class Gameboard extends View implements SensorEventListener {
         {
             ssImage = BitmapFactory.decodeResource(getResources(), R.drawable.ssimageleft);
         }
+        else if(orientation==DOWNRIGHT)
+        {
+            ssImage = BitmapFactory.decodeResource(getResources(), R.drawable.ssimagedownright);
+        }
+        else if(orientation==UPRIGHT)
+        {
+            ssImage = BitmapFactory.decodeResource(getResources(), R.drawable.ssimageupright);
+        }
+        else if(orientation==DOWNLEFT)
+        {
+            ssImage = BitmapFactory.decodeResource(getResources(), R.drawable.ssimagedownleft);
+        }
+        else if(orientation==UPLEFT)
+        {
+            ssImage = BitmapFactory.decodeResource(getResources(), R.drawable.ssimageupleft);
+        }
         else
         {
             ssImage = BitmapFactory.decodeResource(getResources(), R.drawable.ssimageup);
@@ -184,21 +200,25 @@ public class Gameboard extends View implements SensorEventListener {
         else if ((event.values[0] < -diagonalSensitivityValue*gravitySensitivityValue)&&(event.values[1] < -diagonalSensitivityValue*gravitySensitivityValue))
         {
             moved=maze.move(Acceleromaze.UPRIGHT);
+            orientation=UPRIGHT;
         }
         //DOWNRIGHT=5
         else if ((event.values[0] < -diagonalSensitivityValue*gravitySensitivityValue)&&(event.values[1] > diagonalSensitivityValue*gravitySensitivityValue))
         {
             moved=maze.move(Acceleromaze.DOWNRIGHT);
+            orientation=DOWNRIGHT;
         }
         //UPLEFT=6
         else if ((event.values[0] > diagonalSensitivityValue*gravitySensitivityValue)&&(event.values[1] < -diagonalSensitivityValue*gravitySensitivityValue))
         {
             moved=maze.move(Acceleromaze.UPLEFT);
+            orientation=UPLEFT;
         }
         //DOWNLEFT=7
         else if ((event.values[0] > diagonalSensitivityValue*gravitySensitivityValue)&&(event.values[1] > diagonalSensitivityValue*gravitySensitivityValue))
         {
             moved=maze.move(Acceleromaze.DOWNLEFT);
+            orientation=DOWNLEFT;
         }
         if (moved) {
             invalidate();
