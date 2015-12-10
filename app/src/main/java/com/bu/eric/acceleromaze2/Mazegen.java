@@ -42,7 +42,6 @@ public class Mazegen extends Activity {
                     {true ,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true },//30
                     {true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true },//31
             };       //0   //1   //2   //3   //4   //5   //6   //7   //8   //9   //10  //11  //12  //13  //14  //15  //16  //17
-
             boolean[][] wholes = new boolean[][]{
                     {false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false},//0
                     {false,false,false,false,false,false,false,false,false,true ,false,false,false,false,false,true ,false,false},//1
@@ -75,8 +74,9 @@ public class Mazegen extends Activity {
                     {false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false},//28
                     {false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true ,false,false},//29
                     {false,true ,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false},//30
-                    {false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false},//31
+                    {false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false}//31
             };        //0   //1   //2   //3   //4   //5   //6   //7   //8   //9   //10  //11  //12  //13  //14  //15  //16  //17
+
             int[][] obstacles = new int[][]{
                     {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},//0
                     {0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0},//1
@@ -109,10 +109,8 @@ public class Mazegen extends Activity {
                     {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},//28
                     {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0},//29
                     {0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},//30
-                    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},//31
+                    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}//31
             };        //0   //1   //2   //3   //4   //5   //6   //7   //8   //9   //10  //11  //12  //13  //14  //15  //16  //17
-
-        }
             maze.setBorders(border);
             maze.setHoles(wholes);
             maze.setStartPosition(1, 2);
