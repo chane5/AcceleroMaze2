@@ -12,8 +12,13 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 public class Gameboard extends View implements SensorEventListener {
 
@@ -97,12 +102,12 @@ public class Gameboard extends View implements SensorEventListener {
             }
         }
 
-        boolean[][] traps = maze.getHoles();
+        int[][] traps = maze.getObstacles();
         for(int i = 0; i < mazeSizeY; i++) {
             for(int j = 0; j < mazeSizeX; j++){
                 float x1 = j * totalCellWidth;
                 float y1 = i * totalCellHeight;
-                if(traps[i][j]) {
+                if(traps[i][j]==1) {
                     canvas.drawCircle(x1 + (totalCellWidth / 2),
                             y1 + (totalCellWidth / 2),
                             (totalCellWidth / 2),
@@ -223,9 +228,15 @@ public class Gameboard extends View implements SensorEventListener {
         if (moved) {
             invalidate();
             if (maze.isGameComplete()) {
+                Log.d("This is score:", " "+maze.getCoinPoints());
                 mSensorManager.unregisterListener(this);
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 builder.setTitle(context.getText(R.string.finished_title));
+
+                //score is here
+                //TextView scoreValue = (TextView)findViewById(R.id.scoreShow);
+                //scoreValue.setText("Scorebetter");
+
                 LayoutInflater inflater = context.getLayoutInflater();
                 View view = inflater.inflate(R.layout.finish, null);
                 builder.setView(view);

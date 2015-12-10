@@ -13,6 +13,14 @@
         android:textStyle="bold"
         android:textColor="@color/colorAccentLight"
         android:textSize="30sp" />
+    <TextView
+        android:id="@+id/scoreShow"
+        android:text="Score: "
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:textColor="@color/colorAccentLight"
+        android:textSize="30sp" />
     <Button
         android:id="@+id/closeGame"
         android:text="@string/finished_button"

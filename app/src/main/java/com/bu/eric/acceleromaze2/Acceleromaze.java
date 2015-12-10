@@ -11,12 +11,13 @@ public class Acceleromaze extends Activity implements Serializable {
     public static final int UP = 0, DOWN = 1, RIGHT = 2, LEFT = 3, UPRIGHT=4, DOWNRIGHT=5, UPLEFT=6, DOWNLEFT=7;
 
     private boolean[][] borders;
-    private boolean[][] holes;
+    private int[][] obstacles;
     private int sizeX, sizeY;
     private int currentX, currentY;
     private int finalX, finalY;
     private boolean gameComplete;
     private boolean died = false;
+    int coinPoints = 0;
 
 
     public boolean move(int direction) {
@@ -25,17 +26,24 @@ public class Acceleromaze extends Activity implements Serializable {
             if(currentY != 1 && !borders[currentY-1][currentX]) {
                 currentY--;
                 moved = true;
-                if(holes[currentY][currentX]){
+                if(obstacles[currentY][currentX]==1){
                     died = true;
                 }
+                else if(obstacles[currentY][currentX]==2){
+                    coinPoints++;
+                }
+
             }
         }
         if(direction == DOWN) {
             if(currentY != sizeY-1 && !borders[currentY+1][currentX]) {
                 currentY++;
                 moved = true;
-                if(holes[currentY][currentX]){
+                if(obstacles[currentY][currentX]==1){
                     died = true;
+                }
+                else if(obstacles[currentY][currentX]==2){
+                    coinPoints++;
                 }
             }
         }
@@ -43,8 +51,11 @@ public class Acceleromaze extends Activity implements Serializable {
             if(currentX != sizeX-1 && !borders[currentY][currentX+1]) {
                 currentX++;
                 moved = true;
-                if(holes[currentY][currentX]){
+                if(obstacles[currentY][currentX]==1){
                     died = true;
+                }
+                else if(obstacles[currentY][currentX]==2){
+                    coinPoints++;
                 }
             }
         }
@@ -52,8 +63,11 @@ public class Acceleromaze extends Activity implements Serializable {
             if(currentX != 1 && !borders[currentY][currentX-1]) {
                 currentX--;
                 moved = true;
-                if(holes[currentY][currentX]){
+                if(obstacles[currentY][currentX]==1){
                     died = true;
+                }
+                else if(obstacles[currentY][currentX]==2){
+                    coinPoints++;
                 }
             }
         }
@@ -63,8 +77,11 @@ public class Acceleromaze extends Activity implements Serializable {
                 currentX++;
                 currentY--;
                 moved = true;
-                if(holes[currentY][currentX]){
+                if(obstacles[currentY][currentX]==1){
                     died = true;
+                }
+                else if(obstacles[currentY][currentX]==2){
+                    coinPoints++;
                 }
             }
         }
@@ -74,8 +91,11 @@ public class Acceleromaze extends Activity implements Serializable {
                 currentX++;
                 currentY++;
                 moved = true;
-                if(holes[currentY][currentX]){
+                if(obstacles[currentY][currentX]==1){
                     died = true;
+                }
+                else if(obstacles[currentY][currentX]==2){
+                    coinPoints++;
                 }
             }
         }
@@ -85,8 +105,11 @@ public class Acceleromaze extends Activity implements Serializable {
                 currentX--;
                 currentY--;
                 moved = true;
-                if(holes[currentY][currentX]){
+                if(obstacles[currentY][currentX]==1){
                     died = true;
+                }
+                else if(obstacles[currentY][currentX]==2){
+                    coinPoints++;
                 }
             }
         }
@@ -96,8 +119,11 @@ public class Acceleromaze extends Activity implements Serializable {
                 currentX--;
                 currentY++;
                 moved = true;
-                if(holes[currentY][currentX]){
+                if(obstacles[currentY][currentX]==1){
                     died = true;
+                }
+                else if(obstacles[currentY][currentX]==2){
+                    coinPoints++;
                 }
             }
         }
@@ -153,12 +179,14 @@ public class Acceleromaze extends Activity implements Serializable {
         sizeY = borders.length;
     }
 
-    public boolean[][] getHoles() {
-        return holes;
+    public int[][] getObstacles() {
+        return obstacles;
     }
 
-    public void setHoles(boolean[][] lines) {
-        holes = lines;
+    public void setObstacles(int[][] lines) {
+        obstacles = lines;
     }
+
+    public int getCoinPoints(){return coinPoints;}
 
 }
