@@ -43,7 +43,7 @@ public class Gameboard extends View implements SensorEventListener {
     private Paint side, ball, pit, finish, background;
 
     //default gSV=3 and dSV=0.5
-    int gravitySensitivityValue = 5;
+    int gravitySensitivityValue = 3;
     double diagonalSensitivityValue = 0.25;
 
     public Gameboard(Context context, Acceleromaze maze) {
@@ -107,11 +107,23 @@ public class Gameboard extends View implements SensorEventListener {
             for(int j = 0; j < mazeSizeX; j++){
                 float x1 = j * totalCellWidth;
                 float y1 = i * totalCellHeight;
+                Log.d("log x,y values"," "+x1+" "+y1);
                 if(traps[i][j]==1) {
                     canvas.drawCircle(x1 + (totalCellWidth / 2),
                             y1 + (totalCellWidth / 2),
                             (totalCellWidth / 2),
                             pit);
+                }
+                if(traps[i][j]==2){
+                    float tleft, ttop, tright, tbottom;
+                    tleft=(x1 * totalCellWidth);
+                    ttop=(y1 * totalCellHeight);
+                    tright=(x1 * totalCellWidth) + (totalCellWidth);
+                    tbottom=(y1 * totalCellHeight) + (totalCellHeight);
+                    Log.d("left,top,right,bottom"," "+tleft+" "+ttop+" "+tright+" "+tbottom);
+                    Rect pointsImageBounds= new Rect( (int) tleft, (int) ttop, (int) tright, (int) tbottom);
+                    Bitmap CPImage = BitmapFactory.decodeResource(getResources(), R.drawable.coinimage);
+                    canvas.drawBitmap(CPImage, null, pointsImageBounds, null);
                 }
             }
         }
