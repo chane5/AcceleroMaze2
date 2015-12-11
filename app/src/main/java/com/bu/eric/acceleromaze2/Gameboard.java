@@ -287,7 +287,7 @@ public class Gameboard extends View implements SensorEventListener {
                 //scoreValue.setText("Scorebetter");
 
                 TextView score = (TextView) findViewById(R.id.scoreShow);
-                score.setText(String.valueOf(maze.getCoinPoints()));
+                score.setText("Score: " + String.valueOf(maze.getCoinPoints()));
 
                 LayoutInflater inflater = context.getLayoutInflater();
                 View view = inflater.inflate(R.layout.finish, null);
