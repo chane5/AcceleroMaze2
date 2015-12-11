@@ -17,7 +17,8 @@ public class Acceleromaze extends Activity implements Serializable {
     private int finalX, finalY;
     private boolean gameComplete;
     private boolean died = false;
-    int coinPoints = 0;
+    private int coinPoints = 0;
+    private boolean flipGravity = false;
 
 
     public boolean move(int direction) {
@@ -26,49 +27,28 @@ public class Acceleromaze extends Activity implements Serializable {
             if(currentY != 1 && !borders[currentY-1][currentX]) {
                 currentY--;
                 moved = true;
-                if(obstacles[currentY][currentX]==1){
-                    died = true;
-                }
-                else if(obstacles[currentY][currentX]==2){
-                    coinPoints++;
-                }
-
+                checkPosition();
             }
         }
         if(direction == DOWN) {
             if(currentY != sizeY-1 && !borders[currentY+1][currentX]) {
                 currentY++;
                 moved = true;
-                if(obstacles[currentY][currentX]==1){
-                    died = true;
-                }
-                else if(obstacles[currentY][currentX]==2){
-                    coinPoints++;
-                }
+                checkPosition();
             }
         }
         if(direction == RIGHT) {
             if(currentX != sizeX-1 && !borders[currentY][currentX+1]) {
                 currentX++;
                 moved = true;
-                if(obstacles[currentY][currentX]==1){
-                    died = true;
-                }
-                else if(obstacles[currentY][currentX]==2){
-                    coinPoints++;
-                }
+                checkPosition();
             }
         }
         if(direction == LEFT) {
             if(currentX != 1 && !borders[currentY][currentX-1]) {
                 currentX--;
                 moved = true;
-                if(obstacles[currentY][currentX]==1){
-                    died = true;
-                }
-                else if(obstacles[currentY][currentX]==2){
-                    coinPoints++;
-                }
+                checkPosition();
             }
         }
         if(direction==UPRIGHT)
@@ -77,12 +57,7 @@ public class Acceleromaze extends Activity implements Serializable {
                 currentX++;
                 currentY--;
                 moved = true;
-                if(obstacles[currentY][currentX]==1){
-                    died = true;
-                }
-                else if(obstacles[currentY][currentX]==2){
-                    coinPoints++;
-                }
+                checkPosition();
             }
         }
         if(direction==DOWNRIGHT)
@@ -91,12 +66,7 @@ public class Acceleromaze extends Activity implements Serializable {
                 currentX++;
                 currentY++;
                 moved = true;
-                if(obstacles[currentY][currentX]==1){
-                    died = true;
-                }
-                else if(obstacles[currentY][currentX]==2){
-                    coinPoints++;
-                }
+                checkPosition();
             }
         }
         if(direction==UPLEFT)
@@ -105,12 +75,7 @@ public class Acceleromaze extends Activity implements Serializable {
                 currentX--;
                 currentY--;
                 moved = true;
-                if(obstacles[currentY][currentX]==1){
-                    died = true;
-                }
-                else if(obstacles[currentY][currentX]==2){
-                    coinPoints++;
-                }
+                checkPosition();
             }
         }
         if(direction==DOWNLEFT)
@@ -119,12 +84,7 @@ public class Acceleromaze extends Activity implements Serializable {
                 currentX--;
                 currentY++;
                 moved = true;
-                if(obstacles[currentY][currentX]==1){
-                    died = true;
-                }
-                else if(obstacles[currentY][currentX]==2){
-                    coinPoints++;
-                }
+                checkPosition();
             }
         }
         if(moved) {
@@ -135,6 +95,19 @@ public class Acceleromaze extends Activity implements Serializable {
         return moved;
     }
 
+    public void checkPosition()
+    {
+        if(obstacles[currentY][currentX]==1){
+            died = true;
+        }
+        else if(obstacles[currentY][currentX]==2){
+            coinPoints++;
+        }
+        else if(obstacles[currentY][currentX]==3)
+        {
+            flipGravity=true;
+        }
+    }
     public int getMazeWidth() {
         return sizeX;
     }
@@ -188,5 +161,7 @@ public class Acceleromaze extends Activity implements Serializable {
     }
 
     public int getCoinPoints(){return coinPoints;}
+
+    public boolean isFlipGravity(){return flipGravity;}
 
 }

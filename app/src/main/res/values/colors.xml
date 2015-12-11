@@ -8,7 +8,8 @@
     <color name="bord">#03244d</color>
     <color name="player">#f68026</color>
     <color name="ahh">#000000</color>
-    <color name="starcolor">#00FFF0</color>
+    <color name="starcolor">#FFFF00</color>
+    <color name="gravswitch">#B30000</color>
 
 
     <color name="black_overlay">#66000000</color>
