@@ -38,7 +38,6 @@ public class Homescreen extends Activity implements View.OnClickListener {
                         game.putExtra("maze", maze);
                         startActivity(game);
                     }
-
                 });
                 AlertDialog alert = builder.create();
                 alert.show();
