@@ -69,7 +69,7 @@ public class Gameboard extends View implements SensorEventListener {
         background = new Paint();
         background.setColor(getResources().getColor(R.color.back));
         starz = new Paint();
-        starz.setColor(getResources().getColor(R.color.starcolor));
+
         starz.setTextSize(60);
         gravityFlip = new Paint();
         gravityFlip.setColor(getResources().getColor(R.color.gravswitch));
@@ -120,9 +120,20 @@ public class Gameboard extends View implements SensorEventListener {
                     canvas.drawText("X",x1 - 5 + (totalCellWidth / 3), y1 -5 + (totalCellHeight), gravityFlip);
                 }
                 if(traps[i][j]==2) {
-
+                    starz.setColor(getResources().getColor(R.color.starcolor1));
                     canvas.drawText("*", x1 - 5 + (totalCellWidth / 3), y1 + (totalCellHeight), starz);
-
+                }
+                if(traps[i][j]==4) {
+                    starz.setColor(getResources().getColor(R.color.starcolor2));
+                    canvas.drawText("*", x1 - 5 + (totalCellWidth / 3), y1 + (totalCellHeight), starz);
+                }
+                if(traps[i][j]==5) {
+                    starz.setColor(getResources().getColor(R.color.starcolor3));
+                    canvas.drawText("*", x1 - 5 + (totalCellWidth / 3), y1 + (totalCellHeight), starz);
+                }
+                if(traps[i][j]==6) {
+                    starz.setColor(getResources().getColor(R.color.starcolor4));
+                    canvas.drawText("*", x1 - 5 + (totalCellWidth / 3), y1 + (totalCellHeight), starz);
                 }
                 if(traps[i][j]==1) {
                     canvas.drawCircle(x1 + (totalCellWidth / 2),
