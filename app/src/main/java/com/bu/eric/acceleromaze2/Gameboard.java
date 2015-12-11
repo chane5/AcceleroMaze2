@@ -31,8 +31,6 @@ public class Gameboard extends View implements SensorEventListener {
 
     private int mazeSizeX, mazeSizeY;
 
-    private int gravityFlipValue;
-
     float cellWidth, cellHeight;
 
     float totalCellWidth, totalCellHeight;
@@ -75,10 +73,9 @@ public class Gameboard extends View implements SensorEventListener {
         starz.setTextSize(60);
         gravityFlip = new Paint();
         gravityFlip.setColor(getResources().getColor(R.color.gravswitch));
-        gravityFlip.setTextSize(40);
+        gravityFlip.setTextSize(60);
         setFocusable(true);
         this.setFocusableInTouchMode(true);
-        gravityFlipValue=1;
     }
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         width = w;
@@ -120,7 +117,7 @@ public class Gameboard extends View implements SensorEventListener {
                 Log.d("log x,y values"," "+x1+" "+y1);
                 if(traps[i][j]==3)
                 {
-                    canvas.drawText("X",x1 - 10 + (totalCellWidth / 3), y1 - 20 + (totalCellHeight), starz);
+                    canvas.drawText("X",x1 - 5 + (totalCellWidth / 3), y1 -5 + (totalCellHeight), gravityFlip);
                 }
                 if(traps[i][j]==2) {
 
@@ -279,10 +276,6 @@ public class Gameboard extends View implements SensorEventListener {
         }
         if (moved) {
             invalidate();
-            if(maze.isFlipGravity()==true)
-            {
-                gravityFlipValue=-1;
-            }
             if (maze.isGameComplete()) {
                 Log.d("This is score:", " "+maze.getCoinPoints());
                 mSensorManager.unregisterListener(this);
