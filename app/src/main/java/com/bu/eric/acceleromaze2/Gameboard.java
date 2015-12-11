@@ -41,11 +41,11 @@ public class Gameboard extends View implements SensorEventListener {
     private int mazeFinishX, mazeFinishY;
     private Acceleromaze maze;
     private Activity context;
-    private Paint side, ball, pit, finish, background;
+    private Paint side, ball, pit, finish, background, starz;
 
     //default gSV=3 and dSV=0.5
     int gravitySensitivityValue = 3;
-    double diagonalSensitivityValue = 0.25;
+    double diagonalSensitivityValue = 0.2;
 
     public Gameboard(Context context, Acceleromaze maze) {
         super(context);
@@ -68,6 +68,9 @@ public class Gameboard extends View implements SensorEventListener {
         finish.setColor(getResources().getColor(R.color.end));
         background = new Paint();
         background.setColor(getResources().getColor(R.color.back));
+        starz = new Paint();
+        starz.setColor(getResources().getColor(R.color.starcolor));
+        starz.setTextSize(60);
         setFocusable(true);
         this.setFocusableInTouchMode(true);
     }
@@ -109,23 +112,18 @@ public class Gameboard extends View implements SensorEventListener {
                 float x1 = j * totalCellWidth;
                 float y1 = i * totalCellHeight;
                 Log.d("log x,y values"," "+x1+" "+y1);
+                if(traps[i][j]==2){
+
+                    canvas.drawText("*", x1 - 5 + (totalCellWidth / 3), y1 + (totalCellHeight),starz);
+
+                }
                 if(traps[i][j]==1) {
                     canvas.drawCircle(x1 + (totalCellWidth / 2),
                             y1 + (totalCellWidth / 2),
                             (totalCellWidth / 2),
                             pit);
                 }
-                if(traps[i][j]==2){
-                    float tleft, ttop, tright, tbottom;
-                    tleft=(x1 * totalCellWidth);
-                    ttop=(y1 * totalCellHeight);
-                    tright=(x1 * totalCellWidth) + (totalCellWidth);
-                    tbottom=(y1 * totalCellHeight) + (totalCellHeight);
-                    Log.d("left,top,right,bottom"," "+tleft+" "+ttop+" "+tright+" "+tbottom);
-                    Rect pointsImageBounds= new Rect( (int) tleft, (int) ttop, (int) tright, (int) tbottom);
-                    Bitmap CPImage = BitmapFactory.decodeResource(getResources(), R.drawable.coinimage);
-                    canvas.drawBitmap(CPImage, null, pointsImageBounds, null);
-                }
+
             }
         }
 
