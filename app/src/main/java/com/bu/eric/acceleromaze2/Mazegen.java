@@ -113,7 +113,8 @@ public class Mazegen extends Activity {
             };        //0   //1   //2   //3   //4   //5   //6   //7   //8   //9   //10  //11  //12  //13  //14  //15  //16  //17
             maze.setBorders(border);
             maze.setObstacles(obstacles);
-            maze.setStartPosition(1, 1);
+            maze.setStartPosition(1, 2);
+            //maze.setFinalPosition(3, 3);
             maze.setFinalPosition(15,6);
         }
 

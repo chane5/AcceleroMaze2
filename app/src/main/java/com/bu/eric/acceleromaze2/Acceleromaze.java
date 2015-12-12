@@ -107,6 +107,16 @@ public class Acceleromaze extends Activity implements Serializable {
         {
             flipGravity=true;
         }
+        else if(obstacles[currentY][currentX]==4){
+            coinPoints+=2;
+        }
+        else if(obstacles[currentY][currentX]==5){
+            coinPoints+=5;
+        }
+        else if(obstacles[currentY][currentX]==6){
+            coinPoints+=10;
+        }
+
     }
     public int getMazeWidth() {
         return sizeX;
@@ -131,6 +141,9 @@ public class Acceleromaze extends Activity implements Serializable {
     }
 
     public int getFinalY() { return finalY; }
+
+    public int getStartX() {return currentX;}
+    public int getStartY() {return currentY;}
 
     public void setFinalPosition(int x, int y) {
         finalX = x;

@@ -38,10 +38,11 @@ public class Gameboard extends View implements SensorEventListener {
     int orientation;
     public static final int UP = 0, DOWN = 1, RIGHT = 2, LEFT = 3, UPRIGHT=4, DOWNRIGHT=5, UPLEFT=6, DOWNLEFT=7;
 
-    private int mazeFinishX, mazeFinishY;
+    private int mazeFinishX, mazeFinishY, mazeStartX, mazeStartY;
     private Acceleromaze maze;
     private Activity context;
     private Paint side, ball, pit, finish, background, starz, gravityFlip;
+
 
     //default gSV=3 and dSV=0.5
     int gravitySensitivityValue = 3;
@@ -53,9 +54,11 @@ public class Gameboard extends View implements SensorEventListener {
         this.context = (Activity)context;
         mSensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
         mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+        mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_FASTEST);
         mazeFinishX = maze.getFinalX();
         mazeFinishY = maze.getFinalY();
+        mazeStartX = maze.getStartX();
+        mazeStartY = maze.getStartY();
         mazeSizeX = maze.getMazeWidth();
         mazeSizeY = maze.getMazeHeight();
         side = new Paint();
@@ -146,10 +149,33 @@ public class Gameboard extends View implements SensorEventListener {
         }
 
         //draw the finishing point indicator
-        canvas.drawCircle((mazeFinishX * totalCellWidth) + (totalCellWidth / 2),
-                (mazeFinishY * totalCellHeight) + (totalCellHeight / 2),
-                (totalCellWidth / 2),
-                finish);
+
+
+
+        //canvas.drawCircle((mazeFinishX * totalCellWidth) + (totalCellWidth / 2),
+        //        (mazeFinishY * totalCellHeight) + (totalCellHeight / 2),
+        //        (totalCellWidth / 2),
+        //        finish);
+
+        //draw the destination
+        float left, top, right, bottom;
+        left=((mazeFinishX * totalCellWidth) + (totalCellWidth / 2))-(totalCellWidth / 2);
+        top=((mazeFinishY * totalCellHeight) + (totalCellHeight / 2))-(totalCellWidth / 2);
+        right=((mazeFinishX * totalCellWidth) + (totalCellWidth / 2))+(totalCellWidth / 2);
+        bottom=((mazeFinishY * totalCellHeight) + (totalCellHeight / 2))+(totalCellWidth / 2);
+        Rect destinationBound= new Rect( (int) left, (int) top, (int) right, (int) bottom);
+        Bitmap destination=BitmapFactory.decodeResource(getResources(), R.drawable.newearth);
+        canvas.drawBitmap(destination, null, destinationBound, null);
+
+        float sleft, stop, sright, sbottom;
+        sleft=((mazeStartX * totalCellWidth) + (totalCellWidth / 2))-(totalCellWidth / 2);
+        stop=((mazeStartY * totalCellHeight) + (totalCellHeight / 2))-(totalCellWidth / 2);
+        sright=((mazeStartX * totalCellWidth) + (totalCellWidth / 2))+(totalCellWidth / 2);
+        sbottom=((mazeStartY * totalCellHeight) + (totalCellHeight / 2))+(totalCellWidth / 2);
+        Rect startBound= new Rect( (int) sleft, (int) stop, (int) sright, (int) sbottom);
+        Bitmap starting=BitmapFactory.decodeResource(getResources(), R.drawable.brokeearth);
+        canvas.drawBitmap(starting, null, startBound, null);
+
 
         int currentX = maze.getCurrentX(),currentY = maze.getCurrentY();
         //draw the ball
@@ -157,14 +183,16 @@ public class Gameboard extends View implements SensorEventListener {
         //        (currentY * totalCellHeight) + (totalCellHeight / 2),  //y of center
         //        (totalCellWidth / 2),                           //radius
         //        ball);
-        float left, top, right, bottom;
-        left=((currentX * totalCellWidth) + (totalCellWidth / 2))-(totalCellWidth / 2);
-        top=((currentY * totalCellHeight) + (totalCellHeight / 2))-(totalCellWidth / 2);
-        right=((currentX * totalCellWidth) + (totalCellWidth / 2))+(totalCellWidth / 2);
-        bottom=((currentY * totalCellHeight) + (totalCellHeight / 2))+(totalCellWidth / 2);
 
-        Rect imageBound= new Rect( (int) left, (int) top, (int) right, (int) bottom);
+        //draw the spaceship itself.
+        float dleft, dtop, dright, dbottom;
+        dleft=((currentX * totalCellWidth) + (totalCellWidth / 2))-(totalCellWidth / 2);
+        dtop=((currentY * totalCellHeight) + (totalCellHeight / 2))-(totalCellWidth / 2);
+        dright=((currentX * totalCellWidth) + (totalCellWidth / 2))+(totalCellWidth / 2);
+        dbottom=((currentY * totalCellHeight) + (totalCellHeight / 2))+(totalCellWidth / 2);
+        Rect imageBound= new Rect( (int) dleft, (int) dtop, (int) dright, (int) dbottom);
         Bitmap ssImage=null;
+        canvas.drawText("Score: "+String.valueOf(maze.getCoinPoints()), 50, 50, starz);
         if(orientation==UP) {
             ssImage = BitmapFactory.decodeResource(getResources(), R.drawable.ssimageup);
         }
@@ -214,7 +242,8 @@ public class Gameboard extends View implements SensorEventListener {
         if(event.sensor.getType() != Sensor.TYPE_ACCELEROMETER)
             return;
         boolean moved = false;
-        if(maze.isFlipGravity()==false) {
+        //maze.isFlipGravity()==false
+        if(true) {
             if (event.values[0] < -gravitySensitivityValue) {
                 moved = maze.move(Acceleromaze.RIGHT);
                 orientation = RIGHT;
@@ -249,7 +278,7 @@ public class Gameboard extends View implements SensorEventListener {
                 orientation = DOWNLEFT;
             }
         }
-        else if(maze.isFlipGravity()==true)
+        else if(false)
         {
             if (event.values[0] > gravitySensitivityValue) {
                 moved = maze.move(Acceleromaze.RIGHT);
@@ -291,14 +320,15 @@ public class Gameboard extends View implements SensorEventListener {
                 Log.d("This is score:", " "+maze.getCoinPoints());
                 mSensorManager.unregisterListener(this);
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setTitle(context.getText(R.string.finished_title));
+                builder.setTitle(context.getText(R.string.finished_title)+", Your score: "+maze.getCoinPoints());
 
                 //score is here
                 //TextView scoreValue = (TextView)findViewById(R.id.scoreShow);
                 //scoreValue.setText("Scorebetter");
 
-                TextView score = (TextView) findViewById(R.id.scoreShow);
-                score.setText("Score: " + String.valueOf(maze.getCoinPoints()));
+                //TextView score = (TextView) findViewById(R.id.scoreShow);
+                //score.setText("Score: " + String.valueOf(maze.getCoinPoints()));
+
 
                 LayoutInflater inflater = context.getLayoutInflater();
                 View view = inflater.inflate(R.layout.finish, null);
