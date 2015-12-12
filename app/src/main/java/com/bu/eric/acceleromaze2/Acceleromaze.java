@@ -105,7 +105,13 @@ public class Acceleromaze extends Activity implements Serializable {
         }
         else if(obstacles[currentY][currentX]==3)
         {
-            flipGravity=true;
+            if(flipGravity==false) {
+                flipGravity = true;
+            }
+            else if(flipGravity==true)
+            {
+                flipGravity=false;
+            }
         }
         else if(obstacles[currentY][currentX]==4){
             coinPoints+=2;

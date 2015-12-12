@@ -17,6 +17,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".Gamelogic"></activity>
+        <activity android:name="com.bu.eric.acceleromaze2.infobox">
+        </activity>
     </application>
-
 </manifest>

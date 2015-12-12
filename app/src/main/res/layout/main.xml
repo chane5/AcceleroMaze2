@@ -20,16 +20,36 @@
         android:layout_width="fill_parent"
         android:layout_height="match_parent"
         android:src="@drawable/cam"/>
-    <Button
-        android:id="@+id/start"
+    <LinearLayout
         android:layout_width="fill_parent"
+        android:orientation="horizontal"
         android:layout_height="wrap_content"
-        android:padding="5sp"
-        android:text="@string/start_button"
-        android:textSize="40sp"
-        android:textColor="@color/colorPrimaryDark"
-        android:textStyle="bold"
-        android:layout_above="@+id/exit"/>
+        android:layout_above="@+id/exit">
+
+        <Button
+            android:id="@+id/start"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="5sp"
+            android:text="@string/start_button"
+            android:textSize="40sp"
+            android:textColor="@color/colorPrimaryDark"
+            android:textStyle="bold"
+            android:layout_weight="1"
+            android:layout_above="@+id/exit"/>
+        <Button
+            android:id="@+id/info"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="5sp"
+            android:text="@string/info_button"
+            android:textSize="40sp"
+            android:textColor="@color/colorPrimaryDark"
+            android:textStyle="bold"
+            android:layout_weight="1"
+            android:onClick="onClick"
+            android:layout_above="@+id/exit"/>
+    </LinearLayout>
     <Button
         android:id="@+id/exit"
         android:layout_width="fill_parent"

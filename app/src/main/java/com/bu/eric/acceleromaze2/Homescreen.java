@@ -17,13 +17,18 @@ public class Homescreen extends Activity implements View.OnClickListener {
 
         Button start = (Button)findViewById(R.id.start);
         Button exit = (Button)findViewById(R.id.exit);
+        Button info = (Button)findViewById(R.id.info);
         start.setOnClickListener(this);
         exit.setOnClickListener(this);
+        info.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
+            case R.id.info:
+                Intent myIntent= new Intent(v.getContext(),infobox.class);
+                startActivity(myIntent);
             case R.id.exit:
                 finish();
                 break;

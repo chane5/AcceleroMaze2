@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">AcceleroMaze</string>
+    <string name="app_name">Galactic Navigator</string>
     <string name="start_button">START</string>
     <string name="exit_button">EXIT</string>
     <string name="btn_newgame">New Game</string>
@@ -9,4 +9,6 @@
     <string name="loser_title">You Lose</string>
     <string name="finished_text">Game Over</string>
     <string name="finished_button">End Game</string>
+    <string name="info_button">Info</string>
+    <string name="back_button">Back</string>
 </resources>
